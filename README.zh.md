@@ -1,11 +1,11 @@
 <h1 align="center">
-  <img src="build/icon.png" width="64" alt="DSH Desktop logo" valign="middle" />
-  DSH Desktop
+  <img src="build/icon.png" width="64" alt="案板 logo" valign="middle" />
+  案板 Anban
 </h1>
 
 <p align="center">
-  A local-first, cross-platform desktop shell for
-  <a href="https://github.com/deepseek-ai/deepseek-harness">DeepSeek Harness</a>.
+  <strong>什么都能下锅的创作台。</strong><br />
+  <em>The creation bench where everything goes into the pot.</em>
 </p>
 
 <p align="center">
@@ -18,171 +18,100 @@
   <img alt="Windows" src="https://img.shields.io/badge/Windows-x64-171513.svg" />
 </p>
 
-![DSH Desktop 模型提供方设置界面](docs/images/model-provider-settings-v011.png)
+**案板（Anban）** 是为美食 / 历史 / 博物向内容创作者打造的**本地优先创作工作台**——基于 DeepSeek Harness 桌面端。你只管把素材往案板上一放，切、剁、炒、装盘，都是它的事。
 
-<p align="center"><strong>不止 DeepSeek 官方模型，也支持接入主流第三方模型提供方。</strong></p>
+它由三块拼成：
 
-DSH Desktop 把 DeepSeek Harness 的本地 Web 体验封装为桌面应用：选择一个工作区，应用会启动本地 Harness、管理随机回环端口、持久化 Profile/插件/会话，并在 Harness 就绪后直接进入完整界面。
+- **DSH 桌面壳**：fork 自 [dataelement/dsh-desktop](https://github.com/dataelement/dsh-desktop)（MIT）的跨平台桌面壳，包装 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness)
+- **免费搜索栈**：[dsh-search-free](https://github.com/lmcsh9527/dsh-search-free)——多层网络搜索（Exa → Tavily → Bing 自动降级）+ `web_fetch`，不用官方付费搜索包
+- **自媒体技能包**：从真实创作流程提炼的五步创作流水线
 
 > [!IMPORTANT]
-> DSH Desktop 当前处于早期预览阶段，并依赖仍在快速迭代的 `@deepseek-ai/dsh@0.1.0-rc.6`。当前构建尚未代码签名或 Apple 公证，不建议直接用于生产环境。
+> 案板目前是早期预览版，锁定 `@deepseek-ai/dsh@0.1.0-rc.6`。当前构建未经 Apple 签名与公证，不建议生产使用。
 
-## 下载安装
+## 创作流水线
+
+说一句**“帮我写个口播稿”**，案板自动走完整流程：
+
+| 步骤 | 技能 | 作用 |
+|---|---|---|
+| 1 | `topic-mining` 选题挖掘 | 从素材池/趋势挖选题，出选题卡（钩子/受众/角度/母链/可查证性） |
+| 2 | `fact-check` 事实核查 | 用 `web_search` 对每个具体事实（数字/年代/人名/地名）多源验证，标注置信度 |
+| 3 | `oral-script` 口播稿 | 老饕 + 说书人调性：钩子 → 故事线 → 口语化改写 → 金句 |
+| 4 | `storyboard` 视频分镜 | 口播稿转分镜脚本（画面/字幕/音效/节奏）+ 素材清单 |
+| 5 | `publish-checklist` 发布清单 | B站/YouTube 双平台发布前检查 + 48h 复盘 |
+
+技能文件在 [`skills/`](skills/)，由 [`anban-creator`](presets/anban-creator/) 创作者预设自动加载（老饕+说书人人设，接地气，绝不编造史实）。
+
+## 下载
 
 | 平台 | 安装包 | 下载 |
 | --- | --- | --- |
-| macOS Apple Silicon | DMG 安装包 | [下载 Apple 芯片版](https://github.com/dataelement/dsh-desktop/releases/latest/download/dsh-desktop-mac-arm64.dmg) |
-| macOS Intel | DMG 安装包 | [下载 Intel 芯片版](https://github.com/dataelement/dsh-desktop/releases/latest/download/dsh-desktop-mac-x64.dmg) |
-| Windows x64 | EXE 安装版 | [下载 Windows 安装版](https://github.com/dataelement/dsh-desktop/releases/latest/download/dsh-desktop-windows-x64-setup.exe) |
-| Windows x64 | EXE 便携版 | [下载 Windows 便携版](https://github.com/dataelement/dsh-desktop/releases/latest/download/dsh-desktop-windows-x64-portable.exe) |
+| macOS Apple Silicon | DMG | [Apple Silicon 版](https://github.com/lmcsh9527/anban/releases/latest/download/anban-mac-arm64.dmg) |
+| macOS Intel | DMG | [Intel Mac 版](https://github.com/lmcsh9527/anban/releases/latest/download/anban-mac-x64.dmg) |
+| Windows x64 | 安装程序 | [Windows 安装版](https://github.com/lmcsh9527/anban/releases/latest/download/anban-windows-x64-setup.exe) |
+| Windows x64 | 便携版 | [Windows 便携版](https://github.com/lmcsh9527/anban/releases/latest/download/anban-windows-x64-portable.exe) |
 
-所有当前及历史版本可以在 [GitHub Releases 页面](https://github.com/dataelement/dsh-desktop/releases)查看。
+全部历史版本见 [GitHub Releases](https://github.com/lmcsh9527/anban/releases)。
 
-## 为什么做这个项目
+## 快速开始（新装）
 
-DeepSeek Harness 本身提供完整的 Agent Runtime 与 Web UI。DSH Desktop 不重新实现 Harness，而是补上桌面产品所需的宿主能力：
+1. 安装 DMG，右键 → 打开（未签名构建）
+2. 选工作区
+3. 默认模型 **jy**（tokenrhythm 中转）——按 [profile-overrides/settings.model.yml](profile-overrides/settings.model.yml) 配置（密钥走 `JY_API_KEY` 环境变量，绝不入库）
+4. `web_search` 开箱即用（免费搜索栈）——按 [profile-overrides/cordis.patch.yml](profile-overrides/cordis.patch.yml) 配置，插件用符号链接挂进父级依赖树（**绝不在运行中的 profile 里 npm install**）
+5. 新会话选「**案板创作助手**」预设，说“帮我写个口播稿”
 
-- 无需手动运行 CLI 或管理本地端口
-- 使用系统目录选择器打开工作区，并记住最近使用的目录
-- 统一管理 Harness 子进程、启动检测、日志与退出
-- 把 Profile、插件和会话保存在应用安装目录之外，升级应用不丢数据
-- 提供 macOS 与 Windows 安装包构建入口
+双环境安装细节见 [profile-overrides/README.md](profile-overrides/README.md)（网页版 `~/.dsh/profiles/web/`、桌面端 `~/Library/Application Support/dsh-desktop/harness/profiles/`）。
 
-## 功能
-
-- 启动后直接进入 Harness，不设置额外首页
-- 首次启动选择工作区，后续自动恢复最近工作区
-- Harness 启动失败时支持重试、切换工作区、查看日志或退出
-- Workspace 菜单支持打开工作区、最近工作区与重启 Harness
-- 退出桌面应用时优雅终止 Harness 子进程
-- 每次启动仅监听随机的 `127.0.0.1` 端口
-- Renderer 关闭 Node.js 权限，启用 `contextIsolation`、sandbox 与导航限制
-- 在桌面窗口与 Harness 侧栏统一使用 DSH 品牌 Logo
-- 正式 DSH 应用图标，支持 macOS ICNS 与 Windows ICO
-
-## 模型提供方
-
-首次配置时可选择模型提供方并直接填写 API Key。DSH Desktop 复用 Harness 的真实 Settings/Credentials API：Key 只写入凭据存储，对应 Provider 路由会自动创建，并继承其内置模型目录，无需手工填写模型 ID。
-
-当前首启列表包括：
-
-| 类型 | Provider |
-| --- | --- |
-| 模型厂商 | DeepSeek、OpenAI、Anthropic、Google Gemini、xAI、Moonshot/Kimi、MiniMax、智谱 GLM、Mistral AI |
-| 模型聚合平台 | OpenRouter |
-| 推理服务平台 | Groq、Together AI |
-
-更多内置或自定义 Provider 可以在 Harness 的“设置 → 模型”中添加。
-
-## 快速开始
-
-### 环境要求
-
-- Node.js 22 或更新版本
-- npm
-- macOS Apple Silicon/Intel，或 Windows x64
-
-### 本地开发
+## 开发
 
 ```bash
-git clone https://github.com/dataelement/dsh-desktop.git
-cd dsh-desktop
-npm install
-npm run dev
+git clone https://github.com/lmcsh9527/anban.git
+cd anban
+npm install        # 自动跑 patch-package + 品牌资源安装 + Electron 运行时
+npm run dev        # electron-vite dev
 ```
 
-`npm install` 会运行 `patch-package`，重放 DSH Desktop 对 Harness 首次模型配置和侧栏品牌的定制，安装品牌静态资源，然后安装 Electron Runtime。
-
-### 质量检查
+质量检查：
 
 ```bash
 npm test
 npm run typecheck
 npm run build
+node scripts/check-runtime-deps.mjs   # 19 个运行时 @deepseek-ai 依赖存在性
 ```
 
-### 打包
+打包（在对应平台/架构上执行）：
 
 ```bash
-# 在当前 Mac 架构上生成未签名 DMG 与 ZIP
-npm run package:mac
-
-# 分别在对应架构的 Mac/CI Runner 上执行
 npm run package:mac:arm64
 npm run package:mac:x64
-
-# 在 Windows x64 机器/Runner 上生成 NSIS 与 Portable
 npm run package:win
+scripts/smoke-packaged.sh <Anban.app 路径>   # 冒烟：bundle 内 19 个运行时依赖齐全
 ```
 
-Harness 包含架构相关原生模块。macOS ARM64、macOS Intel 与 Windows x64 应在对应平台上重新安装依赖并构建。架构专用脚本会在打包前检查当前 `platform/arch`，避免生成看似成功、实际缺少原生依赖的安装包。
+CI（`.github/workflows/release.yml`）构建 macOS arm64 + Intel + Windows x64、检查 19 个运行时依赖、打 tag 自动发布 Release。
 
-## 运行架构
+## 运行时架构
 
-```text
-DSH Desktop (Electron Main)
-├── 原生工作区选择与最近工作区
-├── Harness 子进程生命周期
-├── 随机回环端口与启动检测
-├── 原生日志/错误恢复入口
-└── 安全 BrowserWindow
-     └── http://127.0.0.1:<random>  DeepSeek Harness Web UI
+上游壳架构保持不变：案板 fork 自 dataelement/dsh-desktop——启动本地 Harness 实例（随机 `127.0.0.1` 端口）、把 profile/插件/会话放在应用安装目录之外（升级不丢数据）、加固 BrowserWindow。完整架构见[上游 README](https://github.com/dataelement/dsh-desktop)。
 
-Electron userData
-├── desktop-settings.json
-├── logs/harness.log
-└── harness/
-    ├── profiles/
-    ├── sessions/
-    └── 插件与用户数据
-```
+## 上游协作
 
-Harness 运行在独立的 Electron Node 子进程中。Cordis HMR 所需的 `--expose-internals` 只授予该子进程，不会授予 Web Renderer。
+- 本仓库是 [dataelement/dsh-desktop](https://github.com/dataelement/dsh-desktop)（MIT）的 **fork**，上游 MIT 署名保留（见 [LICENSE](LICENSE)）
+- 上游 bug 修复以 PR 回馈——例如 [PR #10](https://github.com/dataelement/dsh-desktop/pull/10)（声明 19 个运行时 `@deepseek-ai` 依赖，让 electron-builder 打包进 bundle）
+- `main` 分支保持干净供上游 PR 使用；案板开发在 `anban-brand` 分支
 
-## 项目结构
+## 相关项目
 
-```text
-src/main/             Electron 主进程、窗口与 Harness 生命周期
-src/shared/           共享运行时类型
-patches/              对固定 DSH 版本的可复现界面定制
-scripts/              品牌资源安装与目标平台打包检查
-test/                 设置、运行时、安全和 Provider 覆盖测试
-build/                应用图标资源
-```
-
-## 当前验证状态
-
-- macOS Apple Silicon：开发运行、真实 Harness 启动、DMG/ZIP 打包与挂载已验证
-- macOS Intel：打包配置与平台检查已提供，需要在 Intel Mac/Runner 上完成运行验证
-- Windows x64：NSIS/Portable 配置与平台检查已提供，需要在 Windows/Runner 上完成运行验证
-- Windows ARM64：当前不支持
-- 代码签名、Apple 公证与自动更新：尚未接入
-
-## 上游版本与补丁
-
-项目当前固定依赖 `@deepseek-ai/dsh@0.1.0-rc.6`。首启 Provider 列表由 [`patch-package`](https://github.com/ds300/patch-package) 固化在 [`patches/`](patches/) 中，而不是依赖未跟踪的 `node_modules` 修改。
-
-升级 DSH 时必须：
-
-1. 核对上游 Settings/Credentials 与 Provider Directory 契约；
-2. 重新应用或重写首启界面定制；
-3. 重新生成补丁；
-4. 完成真实 Harness 启动与 Provider 配置回归。
-
-## 贡献
-
-欢迎提交 Issue 与 Pull Request。提交前请至少运行：
-
-```bash
-npm test
-npm run typecheck
-npm run build
-```
-
-请勿在 Issue、日志、截图或测试数据中提交真实 API Key。
+| 项目 | 说明 |
+|---|---|
+| [dsh-search-free](https://github.com/lmcsh9527/dsh-search-free) | 免费多层搜索+抓取插件（Exa → Tavily → Bing + web_fetch），npm 已发布 |
+| [dataelement/dsh-desktop](https://github.com/dataelement/dsh-desktop) | 上游桌面壳（MIT） |
 
 ## 许可证
 
-本项目采用 [MIT License](LICENSE) 开源。
+[MIT](LICENSE) © lmcsh9527，叠加在 dataelement/dsh-desktop MIT 基础之上（保留上游署名）。
 
-DeepSeek Harness 及其依赖仍遵循各自的上游许可证与商标规则。DSH Desktop 是独立的社区桌面封装项目。
+DeepSeek Harness 及其依赖遵循各自上游许可证与商标政策。案板是独立社区项目，与 DeepSeek 官方无关。

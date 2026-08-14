@@ -1,11 +1,11 @@
 <h1 align="center">
-  <img src="build/icon.png" width="64" alt="DSH Desktop logo" valign="middle" />
-  DSH Desktop
+  <img src="build/icon.png" width="64" alt="Anban logo" valign="middle" />
+  案板 Anban
 </h1>
 
 <p align="center">
-  A local-first, cross-platform desktop shell for
-  <a href="https://github.com/deepseek-ai/deepseek-harness">DeepSeek Harness</a>.
+  <strong>什么都能下锅的创作台。</strong><br />
+  <em>The creation bench where everything goes into the pot.</em>
 </p>
 
 <p align="center">
@@ -18,171 +18,100 @@
   <img alt="Windows" src="https://img.shields.io/badge/Windows-x64-171513.svg" />
 </p>
 
-![DSH Desktop model provider settings](docs/images/model-provider-settings-v011.png)
+案板 (Anban) is a **local-first content creation workbench** for food / history / natural-history creators, built on top of the DeepSeek Harness desktop shell. Put your raw material on the board — cutting, mincing, stir-frying, plating are Anban's job.
 
-<p align="center"><strong>Beyond official DeepSeek models, DSH Desktop supports mainstream third-party model providers.</strong></p>
+It combines three things:
 
-DSH Desktop packages the local DeepSeek Harness web experience as a desktop application. Choose a workspace and the app launches a local Harness instance, manages a random loopback port, persists profiles, plugins, and sessions, and opens the full interface as soon as Harness is ready.
+- **DSH Desktop shell** — a fork of [dataelement/dsh-desktop](https://github.com/dataelement/dsh-desktop) (MIT), a cross-platform desktop wrapper around [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness).
+- **Free search stack** — [dsh-search-free](https://github.com/lmcsh9527/dsh-search-free): multi-layer web search (Exa → Tavily → Bing auto-fallback) + `web_fetch`, no paid official search package needed.
+- **Creator skill pack** — a five-step creation pipeline distilled from real creator workflows.
 
 > [!IMPORTANT]
-> DSH Desktop is currently an early preview and depends on the rapidly evolving `@deepseek-ai/dsh@0.1.0-rc.6`. Current builds are not code-signed or notarized by Apple and are not recommended for production use.
+> Anban is an early preview pinned to `@deepseek-ai/dsh@0.1.0-rc.6`. Current builds are not code-signed or notarized by Apple and are not recommended for production use.
+
+## The creation pipeline
+
+Say **“帮我写个口播稿”** (help me write a voice-over script) and Anban walks the full pipeline:
+
+| Step | Skill | What it does |
+|---|---|---|
+| 1 | `topic-mining` | Mine topics from your material pool & trends into topic cards (hook / audience / angle / series / verifiability) |
+| 2 | `fact-check` | Multi-source verification of every concrete fact (numbers, dates, names) via `web_search`, with confidence levels |
+| 3 | `oral-script` | Write the script in a 老饕 (foodie) + storyteller tone: hook → story arc → spoken-language rewrite → golden line |
+| 4 | `storyboard` | Turn the script into a shot list (visuals / captions / SFX / pacing) with a footage checklist |
+| 5 | `publish-checklist` | Pre-publish & post-publish checklist for Bilibili + YouTube (titles, covers, descriptions, series, 48h review) |
+
+Skills live in [`skills/`](skills/) and are auto-loaded by the [`anban-creator`](presets/anban-creator/) agent preset (老饕 + 说书人 persona, grounded, never fabricates history).
 
 ## Download
 
 | Platform | Package | Download |
 | --- | --- | --- |
-| macOS Apple Silicon | DMG installer | [Download for Apple Silicon](https://github.com/dataelement/dsh-desktop/releases/latest/download/dsh-desktop-mac-arm64.dmg) |
-| macOS Intel | DMG installer | [Download for Intel Mac](https://github.com/dataelement/dsh-desktop/releases/latest/download/dsh-desktop-mac-x64.dmg) |
-| Windows x64 | Setup installer | [Download Windows installer](https://github.com/dataelement/dsh-desktop/releases/latest/download/dsh-desktop-windows-x64-setup.exe) |
-| Windows x64 | Portable executable | [Download portable version](https://github.com/dataelement/dsh-desktop/releases/latest/download/dsh-desktop-windows-x64-portable.exe) |
+| macOS Apple Silicon | DMG installer | [Download for Apple Silicon](https://github.com/lmcsh9527/anban/releases/latest/download/anban-mac-arm64.dmg) |
+| macOS Intel | DMG installer | [Download for Intel Mac](https://github.com/lmcsh9527/anban/releases/latest/download/anban-mac-x64.dmg) |
+| Windows x64 | Setup installer | [Download Windows installer](https://github.com/lmcsh9527/anban/releases/latest/download/anban-windows-x64-setup.exe) |
+| Windows x64 | Portable executable | [Download portable version](https://github.com/lmcsh9527/anban/releases/latest/download/anban-windows-x64-portable.exe) |
 
-All current and historical packages are available on the [GitHub Releases page](https://github.com/dataelement/dsh-desktop/releases).
+All current and historical packages are on the [GitHub Releases page](https://github.com/lmcsh9527/anban/releases).
 
-## Why this project exists
+## Quick start (new install)
 
-DeepSeek Harness already provides a complete agent runtime and Web UI. DSH Desktop does not reimplement Harness; it supplies the host capabilities needed for a desktop product:
+1. Install the DMG, right-click → Open (unsigned build).
+2. Choose a workspace.
+3. The default model is **jy** (tokenrhythm relay) — configure per [profile-overrides/settings.model.yml](profile-overrides/settings.model.yml) (keys via `JY_API_KEY` env, never committed).
+4. `web_search` works out of the box with the free search stack — configure per [profile-overrides/cordis.patch.yml](profile-overrides/cordis.patch.yml) and symlink the plugin into the parent tree (never `npm install` inside a live profile).
+5. Start a session on the **案板创作助手** preset and say “帮我写个口播稿”.
 
-- Run without manually starting a CLI or managing local ports
-- Open workspaces with the native system directory picker and remember recent directories
-- Manage the Harness child process, readiness checks, logs, and shutdown in one place
-- Store profiles, plugins, and sessions outside the application installation directory so upgrades do not remove user data
-- Provide packaging entry points for macOS and Windows
+See [profile-overrides/README.md](profile-overrides/README.md) for both environments (web profile `~/.dsh/profiles/web/`, desktop profile under `~/Library/Application Support/dsh-desktop/harness/profiles/`).
 
-## Features
-
-- Opens directly into Harness without an additional landing page
-- Prompts for a workspace on first launch and automatically restores the most recent workspace afterward
-- Offers retry, workspace switching, log viewing, and exit actions when Harness fails to start
-- Provides Workspace menu actions for opening a workspace, selecting a recent workspace, and restarting Harness
-- Gracefully terminates the Harness child process when the desktop app exits
-- Listens only on a random `127.0.0.1` port for each launch
-- Removes Node.js privileges from the renderer and enables `contextIsolation`, sandboxing, and navigation restrictions
-- Uses the DSH brand logo consistently in the desktop window and Harness sidebar
-- Includes a production DSH app icon in macOS ICNS and Windows ICO formats
-
-## Model providers
-
-During initial setup, you can choose a model provider and enter its API key directly. DSH Desktop uses the real Harness Settings and Credentials APIs: the key is written only to the credential store, the corresponding provider route is created automatically, and its built-in model catalog is inherited without requiring model IDs to be entered manually.
-
-The initial setup currently includes:
-
-| Type | Providers |
-| --- | --- |
-| Model vendors | DeepSeek, OpenAI, Anthropic, Google Gemini, xAI, Moonshot/Kimi, MiniMax, Zhipu GLM, Mistral AI |
-| Model aggregation | OpenRouter |
-| Inference platforms | Groq, Together AI |
-
-Additional built-in or custom providers can be added from **Settings → Models** in Harness.
-
-## Quick start
-
-### Requirements
-
-- Node.js 22 or later
-- npm
-- macOS on Apple Silicon or Intel, or Windows x64
-
-### Local development
+## Development
 
 ```bash
-git clone https://github.com/dataelement/dsh-desktop.git
-cd dsh-desktop
-npm install
-npm run dev
+git clone https://github.com/lmcsh9527/anban.git
+cd anban
+npm install        # runs patch-package + brand-asset install + Electron runtime
+npm run dev        # electron-vite dev
 ```
 
-`npm install` runs `patch-package` to reapply DSH Desktop's model-provider onboarding and sidebar branding, installs the brand asset, and then installs the Electron runtime.
-
-### Quality checks
+Quality checks:
 
 ```bash
 npm test
 npm run typecheck
 npm run build
+node scripts/check-runtime-deps.mjs   # 19 runtime @deepseek-ai deps present
 ```
 
-### Packaging
+Packaging (run on the matching platform/arch):
 
 ```bash
-# Generate unsigned DMG and ZIP artifacts for the current Mac architecture
-npm run package:mac
-
-# Run each command on a Mac or CI runner with the matching architecture
 npm run package:mac:arm64
 npm run package:mac:x64
-
-# Generate NSIS and Portable artifacts on a Windows x64 machine or runner
 npm run package:win
+scripts/smoke-packaged.sh <path-to-Anban.app>   # verify the 19 runtime deps shipped
 ```
 
-Harness includes architecture-specific native modules. Dependencies must be reinstalled and built on the matching platform for macOS ARM64, macOS Intel, and Windows x64. The architecture-specific scripts validate the current `platform/arch` before packaging to prevent artifacts that appear successful but are missing native dependencies.
+CI (`.github/workflows/release.yml`) builds macOS arm64 + Intel + Windows x64, checks the 19 runtime deps, and publishes a GitHub Release on tags.
 
 ## Runtime architecture
 
-```text
-DSH Desktop (Electron Main)
-├── Native workspace picker and recent workspaces
-├── Harness child-process lifecycle
-├── Random loopback port and readiness checks
-├── Native logging and recovery actions
-└── Hardened BrowserWindow
-     └── http://127.0.0.1:<random>  DeepSeek Harness Web UI
+The upstream shell architecture is unchanged: Anban is a fork of dataelement/dsh-desktop, which launches a local Harness instance on a random `127.0.0.1` port, persists profiles/plugins/sessions outside the app install directory, and hardens the BrowserWindow. See the [upstream README](https://github.com/dataelement/dsh-desktop) for the full architecture.
 
-Electron userData
-├── desktop-settings.json
-├── logs/harness.log
-└── harness/
-    ├── profiles/
-    ├── sessions/
-    └── Plugins and user data
-```
+## Upstream collaboration
 
-Harness runs in a separate Electron Node child process. The `--expose-internals` permission required by Cordis HMR is granted only to that child process and never to the web renderer.
+- This repository is a **fork of [dataelement/dsh-desktop](https://github.com/dataelement/dsh-desktop) (MIT)**. The upstream MIT attribution is kept (see [LICENSE](LICENSE)).
+- Upstream bug fixes are contributed back as PRs — e.g. [PR #10](https://github.com/dataelement/dsh-desktop/pull/10) (declare the 19 runtime `@deepseek-ai` deps so electron-builder bundles them).
+- The `main` branch stays clean for upstream PRs; Anban development lives on `anban-brand`.
 
-## Project structure
+## Related projects
 
-```text
-src/main/             Electron main process, windows, and Harness lifecycle
-src/shared/           Shared runtime types
-patches/              Reproducible UI customizations for the pinned DSH version
-scripts/              Brand-asset installation and target-platform packaging checks
-test/                 Settings, runtime, security, and provider coverage tests
-build/                Application icon assets
-```
-
-## Current validation status
-
-- macOS Apple Silicon: development workflow, real Harness startup, DMG/ZIP packaging, and mounted artifacts verified
-- macOS Intel: packaging configuration and platform checks provided; runtime verification still requires an Intel Mac or runner
-- Windows x64: NSIS/Portable configuration and platform checks provided; runtime verification still requires a Windows runner
-- Windows ARM64: not currently supported
-- Code signing, Apple notarization, and automatic updates: not yet integrated
-
-## Upstream version and patches
-
-The project currently pins `@deepseek-ai/dsh@0.1.0-rc.6`. The initial provider list is captured with [`patch-package`](https://github.com/ds300/patch-package) under [`patches/`](patches/) rather than relying on untracked changes in `node_modules`.
-
-When upgrading DSH:
-
-1. Verify the upstream Settings, Credentials, and Provider Directory contracts.
-2. Reapply or rewrite the customized onboarding interface.
-3. Regenerate the patch.
-4. Run regression checks against a real Harness startup and provider configuration flow.
-
-## Contributing
-
-Issues and pull requests are welcome. Before submitting a change, run at least:
-
-```bash
-npm test
-npm run typecheck
-npm run build
-```
-
-Never include real API keys in issues, logs, screenshots, or test data.
+| Project | Description |
+|---|---|
+| [dsh-search-free](https://github.com/lmcsh9527/dsh-search-free) | Free multi-layer search + fetch plugin (Exa → Tavily → Bing + `web_fetch`), published on npm |
+| [dataelement/dsh-desktop](https://github.com/dataelement/dsh-desktop) | Upstream desktop shell (MIT) |
 
 ## License
 
-This project is open source under the [MIT License](LICENSE).
+[MIT](LICENSE) © lmcsh9527, on top of the dataelement/dsh-desktop MIT base (upstream attribution retained).
 
-DeepSeek Harness and its dependencies remain subject to their respective upstream licenses and trademark policies. DSH Desktop is an independent community desktop wrapper.
+DeepSeek Harness and its dependencies remain subject to their respective upstream licenses and trademark policies. Anban is an independent community project and is not affiliated with DeepSeek.
