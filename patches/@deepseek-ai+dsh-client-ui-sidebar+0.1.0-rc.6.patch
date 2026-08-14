@@ -62,7 +62,7 @@ index 629e313..19d4bfc 100644
 +					children: (0, react_jsx_runtime.jsx)(DshDesktopLogo, {})
 +				}), (0, react_jsx_runtime.jsx)("span", {
 +					className: SidebarRoot_module_css_default.brandName,
-+					children: "DSH Desktop"
++					children: "案板 Anban"
 +				})]
 +			});
 +		}

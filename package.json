@@ -1,26 +1,29 @@
 {
-  "name": "dsh-desktop",
-  "version": "0.1.0",
-  "description": "A cross-platform desktop shell for DeepSeek Harness.",
+  "name": "anban",
+  "version": "0.2.0",
+  "description": "案板 Anban — 什么都能下锅的创作台。基于 DeepSeek Harness 桌面端的内容创作工作台（美食/历史/博物向），fork 自 dataelement/dsh-desktop（MIT）。",
   "private": true,
   "type": "module",
   "main": "./out/main/index.js",
-  "author": "DataElement",
+  "author": "DataElement (Anban fork by lmcsh9527)",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dataelement/dsh-desktop.git"
+    "url": "git+https://github.com/lmcsh9527/anban.git"
   },
   "bugs": {
-    "url": "https://github.com/dataelement/dsh-desktop/issues"
+    "url": "https://github.com/lmcsh9527/anban/issues"
   },
-  "homepage": "https://github.com/dataelement/dsh-desktop#readme",
+  "homepage": "https://github.com/lmcsh9527/anban#readme",
   "keywords": [
+    "anban",
+    "案板",
     "deepseek",
     "harness",
     "electron",
     "desktop",
-    "agent"
+    "creator",
+    "content-creation"
   ],
   "scripts": {
     "postinstall": "patch-package && node scripts/install-brand-assets.mjs && install-electron --no",
@@ -68,8 +71,8 @@
     "vitest": "4.0.18"
   },
   "build": {
-    "appId": "io.dsh.desktop",
-    "productName": "DSH Desktop",
+    "appId": "io.anban.desktop",
+    "productName": "Anban",
     "asar": false,
     "npmRebuild": false,
     "directories": {
@@ -81,7 +84,7 @@
       "node_modules/**/*",
       "package.json"
     ],
-    "artifactName": "dsh-desktop-${os}-${arch}.${ext}",
+    "artifactName": "anban-${os}-${arch}.${ext}",
     "mac": {
       "category": "public.app-category.developer-tools",
       "icon": "build/icon.icns",
@@ -110,14 +113,14 @@
       ]
     },
     "nsis": {
-      "artifactName": "dsh-desktop-windows-${arch}-setup.${ext}",
+      "artifactName": "anban-windows-${arch}-setup.${ext}",
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true
     },
     "portable": {
-      "artifactName": "dsh-desktop-windows-${arch}-portable.${ext}"
+      "artifactName": "anban-windows-${arch}-portable.${ext}"
     }
   }
 }
