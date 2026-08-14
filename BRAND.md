@@ -27,7 +27,7 @@
 
 ## 技术底座（保留署名）
 
-- 桌面壳：基于 [dataelement/dsh-desktop](https://github.com/dataelement/dsh-desktop)（MIT，**保留原作者版权声明**），fork 自 `lmcsh9527/dsh-desktop`
+- 桌面壳：基于 [dataelement/dsh-desktop](https://github.com/dataelement/dsh-desktop)（MIT，**保留原作者版权声明**），fork 自 `lmcsh9527/anban`（原 `lmcsh9527/dsh-desktop`）
 - 搜索：自研 [dsh-search-free](https://github.com/lmcsh9527/dsh-search-free)（npm 0.1.1）
 - 模型：tokenrhythm 中转（jy）为主，轻舟（qingzou）备用
 - 许可证：MIT © lmcsh9527（在 dsh-desktop MIT 基础上叠加，保留 dataelement 署名）
