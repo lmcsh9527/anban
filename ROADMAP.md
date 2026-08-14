@@ -33,7 +33,7 @@
 
 ### P1.5 文档与发布
 - [x] README 改成案板介绍（中英，保留 dsh-desktop 原说明的链接）
-- [ ] 打 tag `v0.2.0`，发布 release（mac-arm64 + mac-x64 + win）
+- [x] 打 tag `v0.2.0`，发布 release（mac-arm64 + mac-x64 + win）——[v0.2.0](https://github.com/lmcsh9527/anban/releases/tag/v0.2.0)，CI 三平台构建+19 包检查+冒烟全绿
 - [x] 在 README 写明：这是 dsh-desktop 的定制分支，上游修复以 PR 形式回馈（PR #10）
 
 ## 完成定义（DoD）
@@ -44,4 +44,4 @@
 ## 遗留清理（并行处理）
 - [x] 桌面端已装应用的插件副本升级到 dsh-search-free 0.1.1（`~/Library/Application Support/dsh-desktop/harness/profiles/web/plugins/dsh-search-free/`，web 端同步升级，重启生效）
 - [x] 跟进 PR https://github.com/dataelement/dsh-desktop/pull/10（已拆出品牌 docs commit，PR 只剩 fix，待上游 review/合并）
-- [ ] npm token 轮换提醒（对话中暴露过，建议 npm 设置里删除重建）
+- [x] npm token 轮换提醒（对话中暴露过，已多次提醒用户删除重建）
