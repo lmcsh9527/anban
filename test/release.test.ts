@@ -5,10 +5,10 @@ import { describe, expect, it } from 'vitest'
 const projectRoot = path.resolve(import.meta.dirname, '..')
 
 const releaseAssets = [
-  'dsh-desktop-mac-arm64.dmg',
-  'dsh-desktop-mac-x64.dmg',
-  'dsh-desktop-windows-x64-setup.exe',
-  'dsh-desktop-windows-x64-portable.exe'
+  'anban-mac-arm64.dmg',
+  'anban-mac-x64.dmg',
+  'anban-windows-x64-setup.exe',
+  'anban-windows-x64-portable.exe'
 ]
 
 describe('GitHub release contract', () => {
@@ -23,12 +23,12 @@ describe('GitHub release contract', () => {
       }
     }
 
-    expect(packageJson.build.artifactName).toBe('dsh-desktop-${os}-${arch}.${ext}')
+    expect(packageJson.build.artifactName).toBe('anban-${os}-${arch}.${ext}')
     expect(packageJson.build.nsis.artifactName).toBe(
-      'dsh-desktop-windows-${arch}-setup.${ext}'
+      'anban-windows-${arch}-setup.${ext}'
     )
     expect(packageJson.build.portable.artifactName).toBe(
-      'dsh-desktop-windows-${arch}-portable.${ext}'
+      'anban-windows-${arch}-portable.${ext}'
     )
   })
 
@@ -69,7 +69,7 @@ describe('GitHub release contract', () => {
     for (const readme of readmes) {
       for (const asset of releaseAssets) {
         expect(readme).toContain(
-          `https://github.com/dataelement/dsh-desktop/releases/latest/download/${asset}`
+          `https://github.com/lmcsh9527/anban/releases/latest/download/${asset}`
         )
       }
     }
