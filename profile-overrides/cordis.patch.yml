@@ -1,0 +1,19 @@
+# 案板 Anban 预置搜索配置模板（profile-overrides）
+# 安装：复制本文件内容到你的 DSH profile 的 cordis.patch.yml
+#   - 网页版：~/.dsh/profiles/web/cordis.patch.yml
+#   - 桌面端：~/Library/Application Support/dsh-desktop/harness/profiles/web/cordis.patch.yml
+# 密钥：把 YOUR_EXA_API_KEY / YOUR_TAVILY_API_KEY 换成你自己的 key。
+#   铁律：密钥只放本机 profile 配置，绝不提交进仓库。
+# 依赖：dsh-search-free 插件需以符号链接挂载进父级 node_modules：
+#   ln -s <插件路径>/dsh-search-free ~/.dsh/profiles/node_modules/dsh-search-free
+
+- id: web
+  config:
+    searchProvider: freesearch
+
+- insert:
+    - id: web-search-free
+      name: 'dsh-search-free'
+      config:
+        exaApiKey: YOUR_EXA_API_KEY
+        tavilyApiKey: YOUR_TAVILY_API_KEY

@@ -1,0 +1,68 @@
+# 案板 Anban 模型配置模板（profile-overrides）
+# 安装：把以下内容合并进 ~/.dsh/settings.yaml（或你所用 profile 的配置）。
+# 模型：tokenrhythm 中转（jy）为主，轻舟（qingzou）备用。
+# 密钥：本模板不含任何密钥。通过环境变量 JY_API_KEY / QINGZOU_API_KEY 提供
+#   （apiKeyEnv 指向它们），密钥只放本机凭据，绝不入库。
+# baseURL：把 <你的中转地址> 替换为你的真实端点。
+
+llm-pi-ai:
+  providers:
+    jy:
+      apiKeyEnv: JY_API_KEY
+      api: openai-completions
+      baseURL: https://<你的 tokenrhythm 中转地址>/v1
+      models:
+        - id: deepseek-v4-flash
+          contextWindow: 1000000
+        - id: deepseek-v4-pro
+          contextWindow: 1000000
+        - id: glm-5
+          contextWindow: 1000000
+        - id: glm-5.1
+          contextWindow: 200000
+        - id: minimax-m2.7
+          contextWindow: 200000
+        - id: kimi-k2.5
+          contextWindow: 256000
+        - id: kimi-k2.6
+          contextWindow: 256000
+        - id: minimax-m2.5
+          contextWindow: 200000
+        - id: mimo-v2.5-pro
+          contextWindow: 256000
+        - id: qwen3.7-max
+          contextWindow: 1000000
+        - id: kimi-k2.7-code
+          contextWindow: 256000
+        - id: glm-5.2
+          contextWindow: 1000000
+        - id: qwen3.8-max
+          contextWindow: 1000000
+        - id: deepseek-v4-flash-0731
+          contextWindow: 1000000
+        - id: seed-2.1-turbo
+          contextWindow: 262144
+        - id: seed-2.1-pro
+          contextWindow: 262144
+    qingzou:
+      apiKeyEnv: QINGZOU_API_KEY
+      api: openai-completions
+      baseURL: https://<你的轻舟中转地址>/v1
+      models:
+        - id: glm5.2
+          name: glm5.2
+        - id: deepseekv4flash-0731
+          name: deepseekv4flash-0731
+        - id: minimaxm3
+          name: minimaxm3
+        - id: grok-4.5
+          name: grok-4.5
+        - id: grok-4.6
+          name: grok-4.6
+        - id: grok-image-lite
+          name: grok-image-lite
+
+# 默认模型：jy 的 deepseek-v4-flash-0731
+agent-default-model:
+  provider: jy
+  model: deepseek-v4-flash-0731
