@@ -13,6 +13,18 @@ permissions:
   contents: write
 
 jobs:
+  check-runtime-deps:
+    name: Check 19 runtime deps
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: node scripts/check-runtime-deps.mjs
+
   macos-apple-silicon:
     name: macOS Apple Silicon
     runs-on: macos-15
@@ -23,20 +35,25 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - run: node scripts/check-runtime-deps.mjs
       - run: npm test
       - run: npm run typecheck
       - run: npm run package:mac:arm64
+      - name: Smoke-test packaged app (19 runtime deps)
+        run: |
+          APP=$(find dist -maxdepth 3 -name "*.app" | head -1)
+          if [ -z "$APP" ]; then echo "no .app found in dist"; exit 1; fi
+          scripts/smoke-packaged.sh "$APP"
       - uses: actions/upload-artifact@v4
         with:
           name: macos-apple-silicon
           path: |
-            dist/dsh-desktop-mac-arm64.dmg
-            dist/dsh-desktop-mac-arm64.zip
+            dist/anban-mac-arm64.dmg
+            dist/anban-mac-arm64.zip
           if-no-files-found: error
 
   macos-intel:
     name: macOS Intel
-    if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'
     runs-on: macos-15-intel
     steps:
       - uses: actions/checkout@v4
@@ -45,15 +62,21 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - run: node scripts/check-runtime-deps.mjs
       - run: npm test
       - run: npm run typecheck
       - run: npm run package:mac:x64
+      - name: Smoke-test packaged app (19 runtime deps)
+        run: |
+          APP=$(find dist -maxdepth 3 -name "*.app" | head -1)
+          if [ -z "$APP" ]; then echo "no .app found in dist"; exit 1; fi
+          scripts/smoke-packaged.sh "$APP"
       - uses: actions/upload-artifact@v4
         with:
           name: macos-intel
           path: |
-            dist/dsh-desktop-mac-x64.dmg
-            dist/dsh-desktop-mac-x64.zip
+            dist/anban-mac-x64.dmg
+            dist/anban-mac-x64.zip
           if-no-files-found: error
 
   windows-x64:
@@ -67,6 +90,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - run: node scripts/check-runtime-deps.mjs
       - run: npm test
       - run: npm run typecheck
       - run: npm run package:win
@@ -74,8 +98,8 @@ jobs:
         with:
           name: windows-x64
           path: |
-            dist/dsh-desktop-windows-x64-setup.exe
-            dist/dsh-desktop-windows-x64-portable.exe
+            dist/anban-windows-x64-setup.exe
+            dist/anban-windows-x64-portable.exe
           if-no-files-found: error
 
   publish:
@@ -107,6 +131,6 @@ jobs:
             gh release create "$RELEASE_TAG" release-assets/* \
               --verify-tag \
               --generate-notes \
-              --title "DSH Desktop $RELEASE_TAG" \
+              --title "Anban $RELEASE_TAG" \
               --repo "$GITHUB_REPOSITORY"
           fi
